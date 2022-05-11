@@ -40,16 +40,18 @@ const testBand =  await Band.create({name:'Beetles', genre: 'Rock'})
         expect(musicians.length).toBe(3)
         expect(musicians[0]instanceof Musician).toBeTruthy
     })
-   /* test('Update Musicians', async function(){
-        testMusician = Musician.create({
-            name: 'Carla', instrument:'flute'
-        });
-        updatedMusician = await testMusician.update({
-            name:'Prince', where: {
-                name: 'Carla'
-            }
-        });
-        expect(updatedMusician instanceof Musician).toBeTruthy
-    })*/
-    
+
+    test('Association', async function(){
+
+        expect(Musician.belongsTo(Band)).toBeTruthy
+    })
+
+    test('Find all Bands', async function(){
+        const Beetles = await Band.create({name:'Beetles', genre: 'Rock'});
+        const BSB = await Band.create({name:'Backstreet Boys', genre: 'Rock'});
+
+        find = Band.findAll();
+        expect(BSB instanceof Band).toBeTruthy
+
+    })
 })
