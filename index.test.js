@@ -11,14 +11,45 @@ describe('Band and Musician Models', () => {
         // test suite is run
         await sequelize.sync({ force: true });
     })
+    test('can create a Musician', async () => {
+        const testMusician = await Musician.create({name: 'John'})
+        expect(testMusician.name).toBe('John');
+      })
 
     test('can create a Band', async () => {
-        // TODO - test creating a band
-        expect('NO TEST').toBe('EXPECTED VALUE HERE');
+const testBand =  await Band.create({name:'Beetles', genre: 'Rock'})
+        expect(testBand.name).toBe('Beetles');
     })
+    test('can create a Band', async () => {
+        const testBand =  await Band.create({name:'Beetles', genre: 'Rock'})
+        expect(testBand.genre).toBe('Rock');
+         })
 
-    test('can create a Musician', async () => {
-        // TODO - test creating a musician
-        expect('NO TEST').toBe('EXPECTED VALUE HERE');
+    test('Band can have Musiciansssss', async function(){
+        const Beetles = await Band.create({name:'Beetles', genre: 'Rock'});
+        const ringo = await Musician.create({name:'Ringo', instrument:'Drums'});
+        const paul = await Musician.create({name:'Paul', instrument:'Bass Guitar'});
+        const john = await Musician.create({name:'John', instrument:'Guitar'});
+
+        await Beetles.addMusician(ringo)
+        await Beetles.addMusician(paul)
+        await Beetles.addMusician(john)
+
+        const musicians = await Beetles.getMusicians();
+
+        expect(musicians.length).toBe(3)
+        expect(musicians[0]instanceof Musician).toBeTruthy
     })
+   /* test('Update Musicians', async function(){
+        testMusician = Musician.create({
+            name: 'Carla', instrument:'flute'
+        });
+        updatedMusician = await testMusician.update({
+            name:'Prince', where: {
+                name: 'Carla'
+            }
+        });
+        expect(updatedMusician instanceof Musician).toBeTruthy
+    })*/
+    
 })
